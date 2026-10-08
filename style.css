@@ -249,3 +249,5 @@ footer .flogo{height:84px;width:auto;margin:0 auto 12px;display:block}
 .brandmark.lgo img{height:clamp(30px,2.6vw,42px);width:auto}
 .nav.solid .brandmark.lgo img{height:clamp(27px,2.2vw,34px)}
 footer .flogo{height:clamp(44px,4.6vw,60px);margin-bottom:14px}
+/* seven nav items: switch to the menu button a bit earlier so the header never wraps */
+@media(max-width:1120px){.links{display:none}.burger{display:block}}
