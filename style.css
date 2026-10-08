@@ -243,3 +243,9 @@ footer nav a{font-size:.72rem;letter-spacing:.28em;text-transform:uppercase;text
 .nav.solid .brandmark.lgo .lg-ink{opacity:1}
 footer .flogo{height:84px;width:auto;margin:0 auto 12px;display:block}
 @media(max-width:900px){.brandmark.lgo img{height:46px}.nav.solid .brandmark.lgo img{height:40px}}
+/* logo sizing: fluid, scales with the viewport (overrides earlier fixed sizes) */
+.nav{height:clamp(62px,5.4vw,78px)}
+.nav.solid{height:clamp(54px,4.2vw,60px)}
+.brandmark.lgo img{height:clamp(30px,2.6vw,42px);width:auto}
+.nav.solid .brandmark.lgo img{height:clamp(27px,2.2vw,34px)}
+footer .flogo{height:clamp(44px,4.6vw,60px);margin-bottom:14px}
