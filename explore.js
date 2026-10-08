@@ -1,10 +1,11 @@
-// Explore map: curated places, distances from the two neighborhoods (approximate, straight-line)
+// Explore map: curated places with real walking distances (OpenStreetMap foot routing)
+// measured from the middle of each neighborhood, not the front door. "Walkable" = 1 mile or less on foot.
 (function () {
   var HOODS = [
-    { id: 'R', name: 'Rodman House', area: 'Society Hill', lat: 39.9445, lng: -75.1495 },
-    { id: 'QV', name: 'Hancock & Catherine', area: 'Queen Village', lat: 39.9390, lng: -75.1485 }
+    { id: 'R', name: 'Rodman House', area: 'Rodman House', lat: 39.9445, lng: -75.1495 },
+    { id: 'QV', name: 'Hancock & Catherine', area: 'Hancock & Catherine', lat: 39.9390, lng: -75.1485 }
   ];
-  var C = { history: 'History', icons: 'Only in Philly', food: 'Food & neighborhoods', water: 'Waterfront', sports: 'Sports' };
+  var WALK = {"Independence Hall": [0.38, 0.9], "Liberty Bell Center": [0.45, 0.97], "National Constitution Center": [0.75, 1.27], "Elfreth's Alley": [0.9, 1.17], "Pennsylvania Hospital": [0.39, 0.71], "A Man Full of Trouble Tavern": [0.35, 0.6], "Gloria Dei (Old Swedes') Church": [1.01, 0.53], "Rocky Statue": [2.63, 3.15], "Philadelphia Museum of Art": [2.7, 3.22], "Reading Terminal Market": [1.13, 1.65], "Philadelphia's Magic Gardens": [0.74, 0.79], "Italian Market": [0.97, 0.65], "South Street": [0.34, 0.27], "Fabric Row (4th Street)": [0.32, 0.16], "Head House Square": [0.45, 0.32], "East Passyunk Avenue": [1.29, 0.99], "Rittenhouse Square": [1.46, 1.92], "Chinatown": [0.97, 1.49], "Kimmel Center & Avenue of the Arts": [0.91, 1.33], "Penn's Landing": [0.6, 0.85], "Spruce Street Harbor Park": [0.67, 0.92], "Cherry Street Pier": [1.18, 1.41], "Citizens Bank Park": [2.99, 2.69], "Lincoln Financial Field": [3.54, 3.24], "South Philadelphia Sports Complex arena": [3.64, 3.34]};
   var P = [
     ['history', 'Independence Hall', 'Where the Declaration was adopted and the Constitution drafted.', 39.9489, -75.1500],
     ['history', 'Liberty Bell Center', 'The great symbol of liberty, famous for its crack.', 39.9496, -75.1503],
@@ -32,41 +33,45 @@
     ['sports', 'Lincoln Financial Field', 'Home of the Eagles.', 39.9008, -75.1675],
     ['sports', 'South Philadelphia Sports Complex arena', 'The arena for Sixers and Flyers games.', 39.9012, -75.1720]
   ];
-  function mi(a, b, c, d) {
-    var R = 3958.8, r = Math.PI / 180, dLa = (c - a) * r, dLo = (d - b) * r;
-    var x = Math.sin(dLa / 2) * Math.sin(dLa / 2) + Math.cos(a * r) * Math.cos(c * r) * Math.sin(dLo / 2) * Math.sin(dLo / 2);
-    return 2 * R * Math.asin(Math.sqrt(x));
-  }
-  function mode(m) { return m <= 0.9 ? 'Easy walk' : m <= 1.7 ? 'Walk or short ride' : m <= 3 ? 'Short ride or bike' : 'Rideshare or transit'; }
+
   function dist(p) {
-    return HOODS.map(function (h) {
-      var m = mi(h.lat, h.lng, p[3], p[4]);
-      return { h: h, m: m, t: (m < 0.15 ? '0.1' : m.toFixed(1)) + ' mi' };
-    });
+    var w = WALK[p[1]] || [null, null];
+    return HOODS.map(function (h, i) { return { h: h, m: w[i], ok: w[i] !== null && w[i] <= 1.0 }; });
   }
+  function fmt(x) { return x.m === null ? 'n/a' : (x.m < 0.15 ? '0.1' : x.m.toFixed(1)) + ' mi'; }
+  function tag(x) { return x.h.area + ': ' + fmt(x) + (x.ok ? ' on foot' : ' · short ride'); }
   var map = L.map('map', { scrollWheelZoom: false }).setView([39.9425, -75.1560], 13);
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18, attribution: '&copy; OpenStreetMap contributors' }).addTo(map);
   HOODS.forEach(function (h) {
     L.marker([h.lat, h.lng], { icon: L.divIcon({ className: '', html: '<div class="pin h">' + (h.id === 'R' ? 'R' : 'H·C') + '</div>', iconSize: [30, 30], iconAnchor: [15, 15] }), zIndexOffset: 1000 })
-      .addTo(map).bindPopup('<div class="pop"><b>' + h.name + '</b>' + h.area + ' (approximate location)</div>');
+      .addTo(map).bindPopup('<div class="pop"><b>' + h.name + '</b>Approximate location</div>');
   });
   var layer = L.layerGroup().addTo(map), list = document.getElementById('alist');
+  function match(p, cat) {
+    var d = dist(p);
+    if (cat === 'all') return true;
+    if (cat === 'walkR') return d[0].ok;
+    if (cat === 'walkQV') return d[1].ok;
+    return p[0] === cat;
+  }
   function render(cat) {
     layer.clearLayers(); list.innerHTML = '';
-    P.filter(function (p) { return cat === 'all' || p[0] === cat; }).forEach(function (p) {
-      var d = dist(p), near = d[0].m < d[1].m ? d[0] : d[1];
-      var pop = '<div class="pop"><b>' + p[1] + '</b>' + p[2] + d.map(function (x) { return '<span>' + x.h.area + ': about ' + x.t + '</span>'; }).join('') + '</div>';
-      L.marker([p[3], p[4]], { icon: L.divIcon({ className: '', html: '<div class="pin"></div>', iconSize: [14, 14], iconAnchor: [7, 7] }) }).addTo(layer).bindPopup(pop);
+    P.filter(function (p) { return match(p, cat); }).forEach(function (p) {
+      var d = dist(p);
+      var pop = '<div class="pop"><b>' + p[1] + '</b>' + p[2] + d.map(function (x) { return '<span>' + tag(x) + '</span>'; }).join('') + '</div>';
+      L.marker([p[3], p[4]], { icon: L.divIcon({ className: '', html: '<div class="pin' + (d[0].ok || d[1].ok ? ' w' : '') + '"></div>', iconSize: [14, 14], iconAnchor: [7, 7] }) }).addTo(layer).bindPopup(pop);
       var row = document.createElement('div');
       row.className = 'row';
-      row.innerHTML = '<div class="nm">' + p[1] + '<small>' + p[2] + '</small></div><div class="lb label">' + mode(near.m) + '<br>' + d.map(function (x) { return x.h.area + ' · ' + x.t; }).join('<br>') + '</div>';
+      row.innerHTML = '<div class="nm">' + p[1] + '<small>' + p[2] + '</small></div><div class="lb label">' + d.map(function (x) { return (x.ok ? '&#10003; ' : '') + tag(x); }).join('<br>') + '</div>';
       list.appendChild(row);
     });
   }
-  document.getElementById('chips').addEventListener('click', function (e) {
-    var b = e.target.closest('.chip'); if (!b) return;
-    document.querySelectorAll('.chip').forEach(function (c) { c.classList.remove('on'); });
-    b.classList.add('on'); render(b.dataset.c);
+  document.querySelectorAll('.chips').forEach(function (box) {
+    box.addEventListener('click', function (e) {
+      var b = e.target.closest('.chip'); if (!b) return;
+      document.querySelectorAll('.chip').forEach(function (c) { c.classList.remove('on'); });
+      b.classList.add('on'); render(b.dataset.c);
+    });
   });
   map.on('click', function () { map.scrollWheelZoom.enable(); });
   render('all');
