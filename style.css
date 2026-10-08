@@ -282,3 +282,24 @@ footer .flogo{height:clamp(44px,4.6vw,60px);margin-bottom:14px}
 @media(prefers-reduced-motion:reduce){.ticker{overflow-x:auto}.ticker .track{animation:none}.ticker .set[aria-hidden="true"],.tpause{display:none}}
 .tpause{position:static;background:transparent;color:var(--brick);border:1px solid var(--brick);margin-left:12px;padding:4px 10px}
 .tpause:hover{background:var(--brick);color:#fff}
+/* ===== Group stays: dropdown nav, hub page ===== */
+.dd{position:relative}
+.dd>a::after{content:"\25BE";margin-left:.5em;font-size:.75em}
+.ddm{display:none;position:absolute;left:50%;transform:translateX(-50%);top:100%;margin-top:14px;min-width:270px;background:var(--cream);border:1px solid var(--mist);box-shadow:0 14px 34px rgba(13,11,10,.22);padding:8px 0;z-index:60}
+.ddm::before{content:"";position:absolute;left:0;right:0;top:-16px;height:16px}
+.dd:hover .ddm,.dd:focus-within .ddm{display:block}
+.links .ddm a{display:block;color:var(--stone);padding:11px 22px;border:0;white-space:nowrap;letter-spacing:.2em;font-size:.68rem}
+.links .ddm a:hover{background:var(--mist);color:var(--brick)}
+.menu a.sub{font-size:clamp(1.4rem,5.5vw,2rem);opacity:.78;padding-left:1.1rem;line-height:1.2}
+@media(min-width:1001px) and (max-width:1120px){.links{display:flex}.burger{display:none}}
+section[id]{scroll-margin-top:84px}
+a.chip{text-decoration:none;display:inline-block}
+.gs-list{list-style:none;margin:20px 0 6px}
+.gs-list li{padding:10px 0;border-bottom:1px solid rgba(122,114,104,.4);font-size:.96rem;line-height:1.55}
+.gs-list b{font-weight:400;color:var(--brick)}
+.dark .gs-list li{border-color:rgba(255,255,255,.18)}.dark .gs-list b{color:var(--brass)}
+.bestfit{margin-top:16px;border-left:2px solid var(--brick);padding-left:14px;font-size:.97rem}
+.bestfit b{font-weight:400;color:var(--brick)}.dark .bestfit{border-color:var(--brass)}.dark .bestfit b{color:var(--brass)}
+form.sign select{font:inherit;font-weight:300;background:transparent;border:0;border-bottom:1px solid rgba(255,255,255,.45);color:#fff;padding:12px 0;width:100%;border-radius:0;outline:0}
+form.sign select:invalid,form.sign select option[disabled]{color:rgba(255,255,255,.55)}
+form.sign select option{color:#1c1917}
