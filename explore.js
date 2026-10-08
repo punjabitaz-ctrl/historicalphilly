@@ -5,13 +5,13 @@
     { id: 'R', name: 'Rodman House', area: 'Rodman House', lat: 39.9445, lng: -75.1495 },
     { id: 'QV', name: 'Hancock & Catherine', area: 'Hancock & Catherine', lat: 39.9390, lng: -75.1485 }
   ];
-  var WALK = {"Independence Hall": [0.38, 0.9], "Liberty Bell Center": [0.45, 0.97], "National Constitution Center": [0.75, 1.27], "Elfreth's Alley": [0.9, 1.17], "Pennsylvania Hospital": [0.39, 0.71], "A Man Full of Trouble Tavern": [0.35, 0.6], "Gloria Dei (Old Swedes') Church": [1.01, 0.53], "Rocky Statue": [2.63, 3.15], "Philadelphia Museum of Art": [2.7, 3.22], "Reading Terminal Market": [1.13, 1.65], "Philadelphia's Magic Gardens": [0.74, 0.79], "Italian Market": [0.97, 0.65], "South Street": [0.34, 0.27], "Fabric Row (4th Street)": [0.32, 0.16], "Head House Square": [0.45, 0.32], "East Passyunk Avenue": [1.29, 0.99], "Rittenhouse Square": [1.46, 1.92], "Chinatown": [0.97, 1.49], "Kimmel Center & Avenue of the Arts": [0.91, 1.33], "Penn's Landing": [0.6, 0.85], "Spruce Street Harbor Park": [0.67, 0.92], "Cherry Street Pier": [1.18, 1.41], "Citizens Bank Park": [2.99, 2.69], "Lincoln Financial Field": [3.54, 3.24], "South Philadelphia Sports Complex arena": [3.64, 3.34]};
+  var WALK = {"Wills Eye Hospital": [0.6, 1.0], "Thomas Jefferson University Hospital": [0.7, 1.3], "Hospital of the University of Pennsylvania (HUP)": [2.7, 2.7], "Children's Hospital of Philadelphia (CHOP)": [2.8, 2.8], "Independence Hall": [0.38, 0.9], "Liberty Bell Center": [0.45, 0.97], "National Constitution Center": [0.75, 1.27], "Elfreth's Alley": [0.9, 1.17], "Pennsylvania Hospital": [0.39, 0.71], "A Man Full of Trouble Tavern": [0.35, 0.6], "Gloria Dei (Old Swedes') Church": [1.01, 0.53], "Rocky Statue": [2.63, 3.15], "Philadelphia Museum of Art": [2.7, 3.22], "Reading Terminal Market": [1.13, 1.65], "Philadelphia's Magic Gardens": [0.74, 0.79], "Italian Market": [0.97, 0.65], "South Street": [0.34, 0.27], "Fabric Row (4th Street)": [0.32, 0.16], "Head House Square": [0.45, 0.32], "East Passyunk Avenue": [1.29, 0.99], "Rittenhouse Square": [1.46, 1.92], "Chinatown": [0.97, 1.49], "Kimmel Center & Avenue of the Arts": [0.91, 1.33], "Penn's Landing": [0.6, 0.85], "Spruce Street Harbor Park": [0.67, 0.92], "Cherry Street Pier": [1.18, 1.41], "Citizens Bank Park": [2.99, 2.69], "Lincoln Financial Field": [3.54, 3.24], "South Philadelphia Sports Complex arena": [3.64, 3.34]};
   var P = [
     ['history', 'Independence Hall', 'Where the Declaration was adopted and the Constitution drafted.', 39.9489, -75.1500],
     ['history', 'Liberty Bell Center', 'The great symbol of liberty, famous for its crack.', 39.9496, -75.1503],
     ['history', 'National Constitution Center', 'A museum devoted to the U.S. Constitution.', 39.9539, -75.1491],
     ['history', "Elfreth's Alley", "America's oldest continuously inhabited residential street.", 39.9529, -75.1424],
-    ['history', 'Pennsylvania Hospital', 'Founded in 1751, the first hospital in America.', 39.9446, -75.1547],
+    ['history,medical', 'Pennsylvania Hospital', 'Founded in 1751, the first hospital in America.', 39.9446, -75.1547],
     ['history', 'A Man Full of Trouble Tavern', 'A 1759 tavern building, the only one left from pre-Revolutionary Philadelphia.', 39.9448, -75.1445],
     ['history', "Gloria Dei (Old Swedes') Church", 'Completed in 1700, one of the oldest churches in Pennsylvania.', 39.9348, -75.1427],
     ['icons', 'Rocky Statue', 'The statue at the foot of the Art Museum steps, the most photographed spot in town.', 39.9653, -75.1798],
@@ -31,6 +31,10 @@
     ['water', 'Cherry Street Pier', 'A pier of artist studios and food, with river views.', 39.9528, -75.1385],
     ['sports', 'Citizens Bank Park', 'Home of the Phillies.', 39.9061, -75.1665],
     ['sports', 'Lincoln Financial Field', 'Home of the Eagles.', 39.9008, -75.1675],
+    ['medical', 'Wills Eye Hospital', 'A leading eye hospital, on Walnut Street.', 39.9483, -75.1556],
+    ['medical', 'Thomas Jefferson University Hospital', 'Jefferson Health\'s main Center City hospital.', 39.9496, -75.1577],
+    ['medical', 'Hospital of the University of Pennsylvania (HUP)', 'Penn Medicine, in University City.', 39.9497, -75.1932],
+    ['medical', "Children's Hospital of Philadelphia (CHOP)", 'In University City.', 39.9484, -75.1938],
     ['sports', 'South Philadelphia Sports Complex arena', 'The arena for Sixers and Flyers games.', 39.9012, -75.1720]
   ];
 
@@ -52,7 +56,7 @@
     if (cat === 'all') return true;
     if (cat === 'walkR') return d[0].ok;
     if (cat === 'walkQV') return d[1].ok;
-    return p[0] === cat;
+    return p[0].split(',').indexOf(cat) > -1;
   }
   function render(cat) {
     layer.clearLayers(); list.innerHTML = '';
