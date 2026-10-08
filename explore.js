@@ -5,7 +5,8 @@
     { id: 'R', name: 'Rodman House', area: 'Rodman House', lat: 39.9445, lng: -75.1495 },
     { id: 'QV', name: 'Hancock & Catherine', area: 'Hancock & Catherine', lat: 39.9390, lng: -75.1485 }
   ];
-  var WALK = {"Independence Hall": [0.54, 1.08], "Liberty Bell Center": [0.55, 1.15], "National Constitution Center": [0.87, 1.45], "Elfreth's Alley": [1.21, 1.26], "Pennsylvania Hospital": [0.27, 0.94], "A Man Full of Trouble Tavern": [0.64, 0.58], "Gloria Dei (Old Swedes') Church": [0.96, 0.32], "Rocky Statue": [2.67, 3.33], "Philadelphia Museum of Art": [2.74, 3.4], "Reading Terminal Market": [1.17, 1.83], "Philadelphia's Magic Gardens": [0.4, 1.01], "Italian Market": [0.63, 0.81], "South Street": [0.19, 0.5], "Fabric Row (4th Street)": [0.3, 0.39], "Head House Square": [0.44, 0.31], "East Passyunk Avenue": [0.99, 1.14], "Rittenhouse Square": [1.48, 2.15], "Chinatown": [1.01, 1.67], "Kimmel Center & Avenue of the Arts": [0.89, 1.55], "Penn's Landing": [0.91, 0.79], "Spruce Street Harbor Park": [0.98, 0.86], "Cherry Street Pier": [1.46, 1.34], "Citizens Bank Park": [2.7, 2.71], "Lincoln Financial Field": [3.25, 3.09], "Wills Eye Hospital": [0.6, 1.29], "Thomas Jefferson University Hospital": [0.77, 1.44], "Hospital of the University of Pennsylvania (HUP)": [2.45, 3.08], "Children's Hospital of Philadelphia (CHOP)": [2.52, 3.14], "Xfinity Mobile Arena": [3.35, 3.5]};
+  var WALK = {"Independence Hall": [0.54, 1.08], "Liberty Bell Center": [0.55, 1.15], "National Constitution Center": [0.87, 1.45], "Elfreth's Alley": [1.21, 1.26], "Pennsylvania Hospital": [0.27, 0.94], "A Man Full of Trouble Tavern": [0.64, 0.58], "Gloria Dei (Old Swedes') Church": [0.96, 0.32], "Rocky Statue": [2.67, 3.33], "Philadelphia Museum of Art": [2.74, 3.4], "Reading Terminal Market": [1.17, 1.83], "Philadelphia's Magic Gardens": [0.4, 1.01], "Italian Market": [0.63, 0.81], "South Street": [0.19, 0.5], "Fabric Row (4th Street)": [0.3, 0.39], "Head House Square": [0.44, 0.31], "East Passyunk Avenue": [0.99, 1.14], "Rittenhouse Square": [1.48, 2.15], "Chinatown": [1.01, 1.67], "Kimmel Center & Avenue of the Arts": [0.89, 1.55], "Penn's Landing": [0.91, 0.79], "Spruce Street Harbor Park": [0.98, 0.86], "Cherry Street Pier": [1.46, 1.34], "Citizens Bank Park": [2.7, 2.71], "Lincoln Financial Field": [3.25, 3.09], "Wills Eye Hospital": [0.6, 1.29], "Thomas Jefferson University Hospital": [0.77, 1.44], "Hospital of the University of Pennsylvania (HUP)": [2.45, 3.08], "Children's Hospital of Philadelphia (CHOP)": [2.52, 3.14], "Xfinity Mobile Arena": [3.35, 3.5], "Subaru Park (Chester)": [18.64, 17.73], "Franklin Field": [2.26, 2.89], "The Palestra": [2.4, 3.07], "Liacouras Center": [2.96, 3.61], "Daskalakis Athletic Center (Drexel)": [2.43, 3.11], "Hagan Arena": [7.19, 7.83], "John Glaser Arena (La Salle)": [7.73, 8.24], "Finneran Pavilion and Villanova Stadium": [14.04, 14.68], "University of Pennsylvania": [2.53, 3.16], "Drexel University": [2.43, 3.11], "Temple University": [3.08, 3.74], "Thomas Jefferson University (Center City)": [0.71, 1.38], "Thomas Jefferson University (East Falls)": [7.77, 8.43], "La Salle University": [7.29, 7.8], "Saint Joseph's University": [7.4, 8.04], "Villanova University": [14.25, 14.89], "Haverford College": [11.68, 12.32], "Bryn Mawr College": [12.84, 13.48], "Swarthmore College": [17.87, 16.96]};
+  var CAR = {"Independence Hall": [2, 4], "Liberty Bell Center": [2, 4], "National Constitution Center": [3, 5], "Elfreth's Alley": [4, 5], "Pennsylvania Hospital": [2, 4], "A Man Full of Trouble Tavern": [2, 3], "Gloria Dei (Old Swedes') Church": [4, 2], "Rocky Statue": [8, 9], "Philadelphia Museum of Art": [8, 10], "Reading Terminal Market": [4, 6], "Philadelphia's Magic Gardens": [2, 4], "Italian Market": [3, 3], "South Street": [2, 2], "Fabric Row (4th Street)": [2, 2], "Head House Square": [2, 2], "East Passyunk Avenue": [5, 5], "Rittenhouse Square": [4, 6], "Chinatown": [3, 5], "Kimmel Center & Avenue of the Arts": [3, 5], "Penn's Landing": [3, 3], "Spruce Street Harbor Park": [3, 3], "Cherry Street Pier": [4, 5], "Citizens Bank Park": [9, 9], "Lincoln Financial Field": [10, 9], "Wills Eye Hospital": [2, 4], "Thomas Jefferson University Hospital": [3, 4], "Hospital of the University of Pennsylvania (HUP)": [8, 10], "Children's Hospital of Philadelphia (CHOP)": [8, 10], "Xfinity Mobile Arena": [11, 9], "Subaru Park (Chester)": [32, 30], "Franklin Field": [9, 11], "The Palestra": [8, 10], "Liacouras Center": [8, 10], "Daskalakis Athletic Center (Drexel)": [8, 9], "Hagan Arena": [15, 17], "John Glaser Arena (La Salle)": [19, 20], "Finneran Pavilion and Villanova Stadium": [33, 35], "University of Pennsylvania": [7, 9], "Drexel University": [8, 9], "Temple University": [9, 11], "Thomas Jefferson University (Center City)": [3, 5], "Thomas Jefferson University (East Falls)": [19, 21], "La Salle University": [18, 19], "Saint Joseph's University": [16, 17], "Villanova University": [34, 36], "Haverford College": [28, 30], "Bryn Mawr College": [30, 31], "Swarthmore College": [31, 30]};
   var P = [
     ['history', 'Independence Hall', 'Where the Declaration was adopted and the Constitution drafted.', 39.9489, -75.1500],
     ['history', 'Liberty Bell Center', 'The great symbol of liberty, famous for its crack.', 39.9496, -75.1503],
@@ -30,20 +31,40 @@
     ['water', 'Spruce Street Harbor Park', 'A seasonal park on the river with hammocks and lights.', 39.9449, -75.1400],
     ['water', 'Cherry Street Pier', 'A pier of artist studios and food, with river views.', 39.9528, -75.1385],
     ['sports', 'Citizens Bank Park', 'Home of the Phillies.', 39.9061, -75.1665],
-    ['sports', 'Lincoln Financial Field', 'Home of the Eagles.', 39.9008, -75.1675],
+    ['sports', 'Lincoln Financial Field', 'Home of the Eagles, and of Temple Owls football.', 39.9008, -75.1675],
     ['medical', 'Wills Eye Hospital', 'A leading eye hospital, on Walnut Street.', 39.9483, -75.1556],
     ['medical', 'Thomas Jefferson University Hospital', 'Jefferson Health\'s main Center City hospital.', 39.9496, -75.1577],
     ['medical', 'Hospital of the University of Pennsylvania (HUP)', 'Penn Medicine, in University City.', 39.9497, -75.1932],
     ['medical', "Children's Hospital of Philadelphia (CHOP)", 'In University City.', 39.9484, -75.1938],
-    ['sports', 'Xfinity Mobile Arena', 'The arena for Sixers and Flyers games.', 39.9012, -75.1720]
+    ['sports', 'Xfinity Mobile Arena', 'The arena for 76ers and Flyers games.', 39.9012, -75.1720],
+    ['sports', 'Subaru Park (Chester)', 'Home of the Philadelphia Union (MLS).', 39.8329, -75.3785],
+    ['sports', 'Franklin Field', 'Penn Quakers football, and home of the Penn Relays each spring.', 39.9501, -75.1900],
+    ['sports', 'The Palestra', 'Penn Quakers basketball, in the historic arena known for Big 5 games.', 39.9514, -75.1886],
+    ['sports', 'Liacouras Center', 'Temple Owls basketball. Temple football plays at Lincoln Financial Field.', 39.9798, -75.1586],
+    ['sports', 'Daskalakis Athletic Center (Drexel)', "Drexel Dragons basketball, on Drexel's campus.", 39.9545, -75.1866],
+    ['sports', 'Hagan Arena', "Saint Joseph's Hawks basketball.", 39.9956, -75.2349],
+    ['sports', 'John Glaser Arena (La Salle)', 'La Salle Explorers basketball.', 40.0400, -75.1566],
+    ['sports', 'Finneran Pavilion and Villanova Stadium', 'Villanova Wildcats basketball and football, on the Main Line.', 40.0340, -75.3366],
+    ['campus', 'University of Pennsylvania', 'Penn Quakers. Ivy League campus in University City.', 39.9522, -75.1932],
+    ['campus', 'Drexel University', 'Drexel Dragons. University City campus, known for its co-op program.', 39.9545, -75.1866],
+    ['campus', 'Temple University', 'Temple Owls. Main campus in North Philadelphia.', 39.9812, -75.1563],
+    ['campus', 'Thomas Jefferson University (Center City)', "Jefferson's Center City campus, beside Thomas Jefferson University Hospital.", 39.9488, -75.1575],
+    ['campus', 'Thomas Jefferson University (East Falls)', "Jefferson's East Falls campus, along the Schuylkill.", 40.0232, -75.1917],
+    ['campus', 'La Salle University', 'La Salle Explorers. Campus in North Philadelphia.', 40.0376, -75.1540],
+    ['campus', "Saint Joseph's University", "Saint Joseph's Hawks. Campus on City Avenue, on the city's western edge.", 39.9958, -75.2380],
+    ['campus', 'Villanova University', 'Villanova Wildcats. Main Line campus in Delaware County.', 40.0365, -75.3400],
+    ['campus', 'Haverford College', 'Liberal arts college on the Main Line.', 40.0072, -75.3069],
+    ['campus', 'Bryn Mawr College', 'Liberal arts college on the Main Line.', 40.0287, -75.3155],
+    ['campus', 'Swarthmore College', 'Liberal arts college in Delaware County.', 39.9029, -75.3552],
   ];
 
   function dist(p) {
     var w = WALK[p[1]] || [null, null];
-    return HOODS.map(function (h, i) { return { h: h, m: w[i], ok: w[i] !== null && w[i] <= 1.0 }; });
+    var c = CAR[p[1]] || [null, null];
+    return HOODS.map(function (h, i) { return { h: h, m: w[i], ok: w[i] !== null && w[i] <= 1.0, car: c[i] }; });
   }
   function fmt(x) { return x.m === null ? 'n/a' : (x.m < 0.15 ? '0.1' : x.m.toFixed(1)) + ' mi'; }
-  function tag(x) { return x.h.area + ': ' + fmt(x) + (x.ok ? ' on foot' : ' · short ride'); }
+  function tag(x) { return x.h.area + ': ' + fmt(x) + (x.ok ? ' on foot' : (x.car ? ' \u00b7 about ' + x.car + ' min by car' : ' \u00b7 short ride')); }
   function slug(n) { return n.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, ''); }
   function miles(a, b, c, d) {
     var R = 3958.8, r = Math.PI / 180, s1 = Math.sin((c - a) * r / 2), s2 = Math.sin((d - b) * r / 2);
@@ -97,6 +118,11 @@
         d.map(function (x) { return (x.ok ? '&#10003; ' : '') + tag(x); }).join('<br>') + (me ? '<br>' + away(p) : '') + '</div>';
       list.appendChild(row);
     });
+    if (cat !== 'all' && shown.length) {
+      var b = L.latLngBounds(shown.map(function (p) { return [p[3], p[4]]; }));
+      HOODS.forEach(function (h) { b.extend([h.lat, h.lng]); });
+      map.fitBounds(b, { padding: [30, 30], maxZoom: 15 });
+    } else if (cat === 'all') map.setView([39.9425, -75.1560], 13);
     if (!shown.length) list.innerHTML = '<p class="fine">' + (cat === 'saved' ? 'Nothing saved yet. Tap Save on any place to build your own list.' : 'No places match.') + '</p>';
   }
   document.querySelectorAll('.chips').forEach(function (box) {
@@ -153,5 +179,9 @@
       document.querySelector('.chip[data-c="all"]').click();
     });
     render('shared');
-  } else render('all');
+  } else {
+    render('all');
+    var hc = location.hash.match(/cat=(\w+)/);
+    if (hc) { var chip = document.querySelector('.chip[data-c="' + hc[1] + '"]'); if (chip) chip.click(); }
+  }
 })();
