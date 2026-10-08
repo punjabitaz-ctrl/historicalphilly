@@ -227,3 +227,19 @@ footer nav a{font-size:.72rem;letter-spacing:.28em;text-transform:uppercase;text
 .alert b{font-weight:500}
 .alert a{border-bottom:1px solid var(--brick);text-decoration:none}
 .disc{max-width:780px;margin:14px auto 6px;font-size:.78rem;line-height:1.65;color:#8b8274;padding:0 var(--gut)}
+.dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:7px;vertical-align:middle}
+#mmap{height:min(72vh,660px);min-height:440px;border:1px solid var(--stone);background:var(--mist)}
+#mmap .leaflet-tile{filter:grayscale(.55) sepia(.35) contrast(.95) brightness(1.02)}
+.mlist{max-width:920px;margin:34px auto 0}
+.mlist .row{grid-template-columns:1fr minmax(190px,auto);align-items:start}
+.mlist .nm{font-size:1.35rem}.mlist .nm small{font-size:.86rem}
+.mlist .lb{white-space:normal;line-height:1.7}
+@media(max-width:900px){.mlist .row{grid-template-columns:1fr}.mlist .lb{text-align:left}}
+.brandmark.lgo{display:flex;align-items:center;padding:0}
+.brandmark.lgo img{height:58px;width:auto;display:block;transition:opacity .3s,height .3s}
+.brandmark.lgo .lg-ink{position:absolute;opacity:0}
+.nav.solid .brandmark.lgo img{height:48px}
+.nav.solid .brandmark.lgo .lg-light{opacity:0}
+.nav.solid .brandmark.lgo .lg-ink{opacity:1}
+footer .flogo{height:84px;width:auto;margin:0 auto 12px;display:block}
+@media(max-width:900px){.brandmark.lgo img{height:46px}.nav.solid .brandmark.lgo img{height:40px}}
