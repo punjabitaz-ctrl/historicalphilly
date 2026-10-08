@@ -318,3 +318,9 @@ form.sign select option{color:#1c1917}
 .sharedbar{display:flex;gap:14px;align-items:center;justify-content:center;flex-wrap:wrap;background:rgba(184,151,90,.14);border:1px solid var(--brass);padding:12px 18px;margin:0 0 18px}
 .sharedbar[hidden]{display:none}
 .sharedbar button{font:400 .66rem var(--sans);letter-spacing:.2em;text-transform:uppercase;background:none;border:0;border-bottom:1px solid var(--brick);color:var(--brick);cursor:pointer;padding:2px 0}
+/* credit line */
+.built{margin-top:26px;padding-top:18px;border-top:1px solid rgba(255,255,255,.12);font-size:.78rem;letter-spacing:.06em;color:#8b8274;line-height:2}
+.built a{color:#cfc5b3;text-decoration:none;border-bottom:1px solid rgba(207,197,179,.4);padding-bottom:1px}
+.built a:hover{color:var(--brass);border-color:var(--brass)}
+.built .sep{margin:0 .9em;opacity:.45}
+@media(max-width:600px){.built .sep{display:none}.built a,.built{display:block}.built a{margin:4px auto;width:max-content;max-width:100%}}
