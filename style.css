@@ -251,3 +251,9 @@ footer .flogo{height:84px;width:auto;margin:0 auto 12px;display:block}
 footer .flogo{height:clamp(44px,4.6vw,60px);margin-bottom:14px}
 /* seven nav items: switch to the menu button a bit earlier so the header never wraps */
 @media(max-width:1120px){.links{display:none}.burger{display:block}}
+.teams{max-width:760px;margin:36px auto 0;padding-top:24px;border-top:1px solid var(--brass);text-align:center}
+.teams .tl{font-family:var(--serif);font-size:clamp(1.3rem,2.4vw,1.8rem);line-height:1.5;color:#3a332c;margin-top:10px}
+.teams p+p{font-size:.95rem;color:#6b6258;margin-top:12px}
+.teams{max-width:900px}
+.teams .tl{font-size:clamp(1.1rem,2vw,1.55rem)}
+.dark .row .nm small,.hosp .row .nm small{color:#b9af9f}
