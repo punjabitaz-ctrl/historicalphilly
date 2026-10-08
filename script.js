@@ -62,3 +62,14 @@ document.documentElement.classList.add('js');
     el.scrollIntoView({ block: 'center' });
   });
 })();
+
+// Team banner: pause / play control (moving content must be pausable)
+(function () {
+  var t = document.querySelector('.ticker'), b = document.querySelector('.tpause');
+  if (!t || !b) return;
+  b.addEventListener('click', function () {
+    var p = t.classList.toggle('paused');
+    b.textContent = p ? 'Play banner' : 'Pause banner';
+    b.setAttribute('aria-pressed', p);
+  });
+})();

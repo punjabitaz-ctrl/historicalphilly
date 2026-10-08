@@ -257,3 +257,28 @@ footer .flogo{height:clamp(44px,4.6vw,60px);margin-bottom:14px}
 .teams{max-width:900px}
 .teams .tl{font-size:clamp(1.1rem,2vw,1.55rem)}
 .dark .row .nm small,.hosp .row .nm small{color:#b9af9f}
+/* medical map: category buttons outlined in the same color as their map pins */
+#mchips .chip[data-c="hospital"]{--c:#a63f2a;--t:#fff}
+#mchips .chip[data-c="pharmacy"]{--c:#1f6f5c;--t:#fff}
+#mchips .chip[data-c="grocery"]{--c:#6b7a2c;--t:#fff}
+#mchips .chip[data-c="late"]{--c:#7a4f9a;--t:#fff}
+#mchips .chip[data-c="food"]{--c:#b8975a;--t:#1c1917}
+#mchips .chip[data-c="coffee"]{--c:#7a5a3a;--t:#fff}
+#mchips .chip[data-c="laundry"]{--c:#2d6ea3;--t:#fff}
+#mchips .chip[data-c]:not([data-c="all"]){border:2px solid var(--c)}
+#mchips .chip[data-c]:not([data-c="all"]):hover,#mchips .chip[data-c]:not([data-c="all"]).on{background:var(--c);color:var(--t);border-color:var(--c)}
+/* team banner carousel (typographic name cards, no team logos) */
+.ticker{position:relative;background:var(--ink);color:#f3ece0;overflow:hidden;border-top:1px solid var(--brass);border-bottom:1px solid var(--brass)}
+.ticker .track{display:flex;width:max-content;animation:tick 80s linear infinite}
+.ticker:hover .track,.ticker.paused .track{animation-play-state:paused}
+.ticker .set{display:flex}
+.tm{padding:20px 38px;text-align:center;white-space:nowrap;border-right:1px solid rgba(184,151,90,.35);display:flex;flex-direction:column;align-items:center;gap:2px}
+.tm i{font-style:normal;font:400 .58rem var(--sans);letter-spacing:.3em;text-transform:uppercase;color:var(--brass)}
+.tm.col i{color:#d9cfbd}
+.tm b{font-family:var(--serif);font-weight:400;font-size:1.65rem;line-height:1.15}
+.tm span{font:300 .74rem var(--sans);letter-spacing:.14em;text-transform:uppercase;color:#b9af9f}
+.tpause{position:absolute;right:10px;bottom:8px;background:rgba(13,11,10,.85);color:#e9d3a0;border:1px solid var(--brass);font:400 .6rem var(--sans);letter-spacing:.22em;text-transform:uppercase;padding:5px 10px;cursor:pointer;z-index:2}
+@keyframes tick{to{transform:translateX(-50%)}}
+@media(prefers-reduced-motion:reduce){.ticker{overflow-x:auto}.ticker .track{animation:none}.ticker .set[aria-hidden="true"],.tpause{display:none}}
+.tpause{position:static;background:transparent;color:var(--brick);border:1px solid var(--brick);margin-left:12px;padding:4px 10px}
+.tpause:hover{background:var(--brick);color:#fff}
