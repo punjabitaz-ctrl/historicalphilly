@@ -14,6 +14,7 @@
     L.marker([h.lat, h.lng], { icon: L.divIcon({ className: '', html: '<div class="pin h">' + (h.id === 'R' ? 'R' : 'H·C') + '</div>', iconSize: [30, 30], iconAnchor: [15, 15] }), zIndexOffset: 1000 })
       .addTo(map).bindPopup('<div class="pop"><b>' + h.name + '</b>Approximate location</div>');
   });
+  function act(p) { return '<div class="act"><a href="https://www.google.com/maps/dir/?api=1&destination=' + p[3] + ',' + p[4] + '" target="_blank" rel="noopener">Directions</a>' + '<a href="https://maps.apple.com/?daddr=' + p[3] + ',' + p[4] + '&q=' + encodeURIComponent(p[1]) + '" target="_blank" rel="noopener">Apple Maps</a></div>'; }
   function ok(m) { return m !== null && m <= 1.0; }
   function fmt(m) { return m === null ? 'n/a' : (m < 0.15 ? '0.1' : m.toFixed(1)) + ' mi'; }
   function tag(h, m) { return h.area + ': ' + fmt(m) + (ok(m) ? ' on foot' : ' · short ride'); }
@@ -30,12 +31,12 @@
     var bounds = [];
     shown.forEach(function (p) {
       var pop = '<div class="pop"><b>' + p[1] + '</b>' + p[2] + (p[5] ? '<span>' + p[5] + '</span>' : '') +
-        '<span>' + tag(HOODS[0], p[6][0]) + '</span><span>' + tag(HOODS[1], p[6][1]) + '</span></div>';
+        '<span>' + tag(HOODS[0], p[6][0]) + '</span><span>' + tag(HOODS[1], p[6][1]) + '</span>' + act(p) + '</div>';
       L.marker([p[3], p[4]], { icon: L.divIcon({ className: '', html: '<div class="pin" style="background:' + COL[p[0]] + '"></div>', iconSize: [14, 14], iconAnchor: [7, 7] }) }).addTo(layer).bindPopup(pop);
       bounds.push([p[3], p[4]]);
       var row = document.createElement('div');
       row.className = 'row';
-      row.innerHTML = '<div class="nm">' + p[1] + '<small><span class="dot" style="background:' + COL[p[0]] + '"></span>' + CAT[p[0]] + ' · ' + p[2] + (p[5] ? ' ' + p[5] : '') + '</small></div>' +
+      row.innerHTML = '<div class="nm">' + p[1] + '<small><span class="dot" style="background:' + COL[p[0]] + '"></span>' + CAT[p[0]] + ' · ' + p[2] + (p[5] ? ' ' + p[5] : '') + '</small>' + act(p) + '</div>' +
         '<div class="lb label">' + [[HOODS[0], p[6][0]], [HOODS[1], p[6][1]]].map(function (x) { return (ok(x[1]) ? '&#10003; ' : '') + tag(x[0], x[1]); }).join('<br>') + '</div>';
       list.appendChild(row);
     });

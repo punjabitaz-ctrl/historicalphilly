@@ -303,3 +303,18 @@ a.chip{text-decoration:none;display:inline-block}
 form.sign select{font:inherit;font-weight:300;background:transparent;border:0;border-bottom:1px solid rgba(255,255,255,.45);color:#fff;padding:12px 0;width:100%;border-radius:0;outline:0}
 form.sign select:invalid,form.sign select option[disabled]{color:rgba(255,255,255,.55)}
 form.sign select option{color:#1c1917}
+/* Explore: save / directions / my location */
+.act{display:flex;flex-wrap:wrap;gap:6px 16px;margin-top:10px}
+.act button,.act a{font:400 .62rem var(--sans);letter-spacing:.22em;text-transform:uppercase;background:none;border:0;border-bottom:1px solid currentColor;padding:2px 0;cursor:pointer;text-decoration:none;color:var(--brick)}
+.act button[aria-pressed="true"]{color:#8a6a1c}
+.dark .act button,.dark .act a{color:var(--brass)}
+.pop .act{margin-top:10px}.pop .act a,.pop .act button{color:var(--brick)}
+.pin.sv{box-shadow:0 0 0 3px var(--brass),0 1px 4px rgba(0,0,0,.4)}
+.pin.me{width:16px;height:16px;background:#2d6ea3;border:3px solid #fff;box-shadow:0 0 0 4px rgba(45,110,163,.35)}
+.tools{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin:4px 0 0}
+.tool{font:400 .7rem var(--sans);letter-spacing:.24em;text-transform:uppercase;background:var(--stone);color:var(--cream);border:1px solid var(--stone);padding:11px 20px;cursor:pointer;transition:.25s}
+.tool:hover{background:transparent;color:var(--stone)}
+.chip.saved{border-color:#8a6a1c;color:#8a6a1c}.chip.saved:hover,.chip.saved.on{background:#8a6a1c;color:#fff}
+.sharedbar{display:flex;gap:14px;align-items:center;justify-content:center;flex-wrap:wrap;background:rgba(184,151,90,.14);border:1px solid var(--brass);padding:12px 18px;margin:0 0 18px}
+.sharedbar[hidden]{display:none}
+.sharedbar button{font:400 .66rem var(--sans);letter-spacing:.2em;text-transform:uppercase;background:none;border:0;border-bottom:1px solid var(--brick);color:var(--brick);cursor:pointer;padding:2px 0}

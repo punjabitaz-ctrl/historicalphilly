@@ -44,6 +44,30 @@
   }
   function fmt(x) { return x.m === null ? 'n/a' : (x.m < 0.15 ? '0.1' : x.m.toFixed(1)) + ' mi'; }
   function tag(x) { return x.h.area + ': ' + fmt(x) + (x.ok ? ' on foot' : ' · short ride'); }
+  function slug(n) { return n.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, ''); }
+  function miles(a, b, c, d) {
+    var R = 3958.8, r = Math.PI / 180, s1 = Math.sin((c - a) * r / 2), s2 = Math.sin((d - b) * r / 2);
+    return 2 * R * Math.asin(Math.sqrt(s1 * s1 + Math.cos(a * r) * Math.cos(c * r) * s2 * s2));
+  }
+  // Saved places live only in this browser (localStorage); nothing is sent anywhere.
+  var KEY = 'hp_saved_places', saved = [], cur = 'all', me = null, meMarker = null, shared = null, pins = {};
+  try { saved = JSON.parse(localStorage.getItem(KEY) || '[]'); } catch (e) { saved = []; }
+  function persist() {
+    try { localStorage.setItem(KEY, JSON.stringify(saved)); } catch (e) {}
+    var n = document.getElementById('savedN'); if (n) n.textContent = saved.length;
+  }
+  var hm = location.hash.match(/saved=([^&]*)/);
+  if (hm) shared = decodeURIComponent(hm[1]).split('~').filter(Boolean);
+  function isSaved(p) { return saved.indexOf(slug(p[1])) > -1; }
+  function gmaps(p) { return 'https://www.google.com/maps/dir/?api=1&destination=' + p[3] + ',' + p[4]; }
+  function amaps(p) { return 'https://maps.apple.com/?daddr=' + p[3] + ',' + p[4] + '&q=' + encodeURIComponent(p[1]); }
+  function acts(p) {
+    var s = isSaved(p);
+    return '<div class="act"><button type="button" class="save" data-k="' + slug(p[1]) + '" aria-pressed="' + s + '">' + (s ? '&#9733; Saved' : '&#9734; Save') + '</button>' +
+      '<a href="' + gmaps(p) + '" target="_blank" rel="noopener">Directions</a><a href="' + amaps(p) + '" target="_blank" rel="noopener">Apple Maps</a></div>';
+  }
+  function away(p) { var m = miles(me[0], me[1], p[3], p[4]); return 'About ' + (m < 0.15 ? '0.1' : m.toFixed(1)) + ' mi from you (straight line)'; }
+
   var map = L.map('map', { scrollWheelZoom: false }).setView([39.9425, -75.1560], 13);
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18, attribution: '&copy; OpenStreetMap contributors' }).addTo(map);
   HOODS.forEach(function (h) {
@@ -52,23 +76,28 @@
   });
   var layer = L.layerGroup().addTo(map), list = document.getElementById('alist');
   function match(p, cat) {
-    var d = dist(p);
     if (cat === 'all') return true;
+    if (cat === 'saved') return isSaved(p);
+    if (cat === 'shared') return shared && shared.indexOf(slug(p[1])) > -1;
+    var d = dist(p);
     if (cat === 'walkR') return d[0].ok;
     if (cat === 'walkQV') return d[1].ok;
     return p[0].split(',').indexOf(cat) > -1;
   }
   function render(cat) {
-    layer.clearLayers(); list.innerHTML = '';
-    P.filter(function (p) { return match(p, cat); }).forEach(function (p) {
-      var d = dist(p);
-      var pop = '<div class="pop"><b>' + p[1] + '</b>' + p[2] + d.map(function (x) { return '<span>' + tag(x) + '</span>'; }).join('') + '</div>';
-      L.marker([p[3], p[4]], { icon: L.divIcon({ className: '', html: '<div class="pin' + (d[0].ok || d[1].ok ? ' w' : '') + '"></div>', iconSize: [14, 14], iconAnchor: [7, 7] }) }).addTo(layer).bindPopup(pop);
+    cur = cat; layer.clearLayers(); list.innerHTML = ''; pins = {};
+    var shown = P.filter(function (p) { return match(p, cat); });
+    shown.forEach(function (p) {
+      var d = dist(p), k = slug(p[1]);
+      var pop = '<div class="pop"><b>' + p[1] + '</b>' + p[2] + d.map(function (x) { return '<span>' + tag(x) + '</span>'; }).join('') + (me ? '<span>' + away(p) + '</span>' : '') + acts(p) + '</div>';
+      pins[k] = L.marker([p[3], p[4]], { icon: L.divIcon({ className: '', html: '<div class="pin' + (d[0].ok || d[1].ok ? ' w' : '') + (isSaved(p) ? ' sv' : '') + '"></div>', iconSize: [14, 14], iconAnchor: [7, 7] }) }).addTo(layer).bindPopup(pop);
       var row = document.createElement('div');
       row.className = 'row';
-      row.innerHTML = '<div class="nm">' + p[1] + '<small>' + p[2] + '</small></div><div class="lb label">' + d.map(function (x) { return (x.ok ? '&#10003; ' : '') + tag(x); }).join('<br>') + '</div>';
+      row.innerHTML = '<div class="nm">' + p[1] + '<small>' + p[2] + '</small>' + acts(p) + '</div><div class="lb label">' +
+        d.map(function (x) { return (x.ok ? '&#10003; ' : '') + tag(x); }).join('<br>') + (me ? '<br>' + away(p) : '') + '</div>';
       list.appendChild(row);
     });
+    if (!shown.length) list.innerHTML = '<p class="fine">' + (cat === 'saved' ? 'Nothing saved yet. Tap Save on any place to build your own list.' : 'No places match.') + '</p>';
   }
   document.querySelectorAll('.chips').forEach(function (box) {
     box.addEventListener('click', function (e) {
@@ -77,6 +106,52 @@
       b.classList.add('on'); render(b.dataset.c);
     });
   });
+  // Save / unsave (works in list rows and in map popups)
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest('.save'); if (!b) return;
+    var k = b.dataset.k, i = saved.indexOf(k), on = i === -1;
+    if (on) saved.push(k); else saved.splice(i, 1);
+    persist();
+    document.querySelectorAll('.save[data-k="' + k + '"]').forEach(function (x) { x.setAttribute('aria-pressed', on); x.innerHTML = on ? '&#9733; Saved' : '&#9734; Save'; });
+    if (pins[k] && pins[k].getElement()) { var el = pins[k].getElement().querySelector('.pin'); if (el) el.classList.toggle('sv', on); }
+    if (cur === 'saved' && !on) render('saved');
+  });
+  var msg = document.getElementById('toolMsg');
+  function say(t) { if (msg) msg.textContent = t; }
+  document.getElementById('shareBtn').addEventListener('click', function () {
+    if (!saved.length) { say('Save a few places first, then copy your list link.'); return; }
+    var url = location.origin + location.pathname + '#saved=' + saved.join('~');
+    if (navigator.clipboard) navigator.clipboard.writeText(url).then(function () { say('Link copied. Anyone who opens it will see your list.'); }, function () { say(url); });
+    else say(url);
+  });
+  document.getElementById('locate').addEventListener('click', function () {
+    if (!navigator.geolocation) { say('This browser cannot share your location. Directions still work from any place.'); return; }
+    say('Finding you...');
+    navigator.geolocation.getCurrentPosition(function (pos) {
+      me = [pos.coords.latitude, pos.coords.longitude];
+      if (meMarker) map.removeLayer(meMarker);
+      meMarker = L.marker(me, { icon: L.divIcon({ className: '', html: '<div class="pin me"></div>', iconSize: [16, 16], iconAnchor: [8, 8] }) }).addTo(map)
+        .bindPopup('<div class="pop"><b>You are here</b>Your location stays in your browser.</div>');
+      say('Showing distances from your location (straight line).');
+      render(cur);
+    }, function () { say('We could not get your location. You can still tap Directions on any place.'); }, { timeout: 10000 });
+  });
   map.on('click', function () { map.scrollWheelZoom.enable(); });
-  render('all');
+  persist();
+  var bar = document.getElementById('sharedBar');
+  if (shared && shared.length && bar) {
+    bar.hidden = false;
+    bar.querySelector('span').textContent = 'Showing a shared list of ' + shared.length + ' place' + (shared.length === 1 ? '' : 's') + '.';
+    document.querySelectorAll('.chip').forEach(function (c) { c.classList.remove('on'); });
+    document.getElementById('sharedSave').addEventListener('click', function () {
+      shared.forEach(function (k) { if (saved.indexOf(k) === -1) saved.push(k); });
+      persist(); bar.hidden = true; history.replaceState(null, '', location.pathname);
+      document.querySelector('.chip[data-c="saved"]').click();
+    });
+    document.getElementById('sharedClear').addEventListener('click', function () {
+      bar.hidden = true; history.replaceState(null, '', location.pathname);
+      document.querySelector('.chip[data-c="all"]').click();
+    });
+    render('shared');
+  } else render('all');
 })();
