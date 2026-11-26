@@ -1,0 +1,10 @@
+# Historical Philly (historicalphilly.com)
+#
+# Every crawler may read the site: search engines (Google, Bing, which
+# also supplies Yahoo's results) and OpenAI (GPTBot, OAI-SearchBot,
+# ChatGPT-User) included.
+
+User-agent: *
+Allow: /
+
+Sitemap: https://historicalphilly.com/sitemap.xml
