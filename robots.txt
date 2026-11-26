@@ -1,10 +1,14 @@
 # Historical Philly (historicalphilly.com)
 #
-# Every crawler may read the site: search engines (Google, Bing, which
-# also supplies Yahoo's results) and OpenAI (GPTBot, OAI-SearchBot,
-# ChatGPT-User) included.
+# Search engines (Google, Bing, which also supplies Yahoo's results) and
+# OpenAI's search crawlers (OAI-SearchBot, ChatGPT-User) may read the
+# site. GPTBot, OpenAI's training crawler, is blocked: the owner does not
+# want OpenAI to train on the site (owner, 2026-11-26).
 
 User-agent: *
 Allow: /
+
+User-agent: GPTBot
+Disallow: /
 
 Sitemap: https://historicalphilly.com/sitemap.xml
